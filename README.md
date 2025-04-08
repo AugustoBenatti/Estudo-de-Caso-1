@@ -12,26 +12,13 @@ Desenvolver uma Plataforma Inteligente de Monitoramento de Logs para E-commerce,
 
 ### Objetivos Específicos
 
-- Capturar e padronizar todos os logs do sistema, incluindo informações extras para análises mais detalhadas.
-- Utilizar IA para identificar anomalias, prever falhas com base em dados históricos e analisar textos nos registros para antecipar problemas.
-- Organizar, validar e classificar os registros por meio de linguagens formais e autômatos, destacando informações relevantes.
-- Gerar relatórios para identificação de padrões e análise detalhada dos dados.
-- Desenvolver um sistema de alertas inteligentes para notificar administradores sobre problemas críticos e atividades suspeitas.
-- Criar dashboards interativos para visualização em tempo real, identificação de tendências e análise aprofundada dos logs.
+Capturar e padronizar todos os logs do sistema, incluindo informações extras para análises mais detalhadas, utilizando IA para identificar anomalias, prever falhas com base em dados históricos e analisar textos nos registros para antecipar problemas. Organizar, validar e classificar os registros por meio de linguagens formais e autômatos, destacando informações relevantes. Gerar relatórios para identificação de padrões e análise detalhada dos dados. Desenvolver um sistema de alertas inteligentes para notificar administradores sobre problemas críticos e atividades suspeitas. Criar dashboards interativos para visualização em tempo real, identificação de tendências e análise aprofundada dos logs. 
 
 ##  Descrição
 
-O projeto **Plataforma Inteligente de Monitoramento de Logs para E-commerce** automatiza a coleta, processamento e análise dos logs das plataformas de e-commerce. Utiliza IA para detectar padrões, prever falhas e gerar alertas em tempo real, melhorando a segurança e estabilidade do sistema.
-
-Inclui a criação de um pipeline de logs para coletar dados de diversas fontes, aplicação de Machine Learning e NLP para identificar anomalias, e uso de Linguagens Formais e Autômatos para organizar os logs.
-
-Podemos utilizar a biblioteca `scikit-learn` junto com o algoritmo `IsolationForest` para fazer a detecção de anomalias, visto que a `scikit-learn` é uma biblioteca de aprendizagem de máquina, e o algoritmo `IsolationForest` é eficiente para identificar registros de log que se desviam do comportamento normal.
-
----
-
-##  Descrição Técnica
-
-Este projeto simula a geração de logs de um sistema e utiliza o algoritmo `Isolation Forest`, do `scikit-learn`, para detectar mensagens de erro que podem indicar falhas críticas ou anomalias no sistema.
+O projeto Plataforma Inteligente de Monitoramento de Logs para E-commerce automatiza a coleta, processamento e análise dos logs das plataformas de e-commerce. Utiliza IA para detectar padrões, prever falhas e gerar alertas em tempo real, melhorando a segurança e estabilidade do sistema. Inclui a criação de um pipeline de logs para coletar dados de diversas fontes, aplicação de Machine Learning e NLP para identificar anomalias, e uso de Linguagens Formais e Autômatos para organizar os logs.   
+ 
+Podemos utilizar a biblioteca scikit-learn junto com o algoritmo IsolationForest para fazer a detecção de anomalias, visto que a biblioteca scikit-learn é uma biblioteca de aprendizagem de máquina e o algoritmo IsolationForest para identificar registros de log que se desviam do comportamento normal. 
 
 ##  Funcionalidades Principais
 
