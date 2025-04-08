@@ -1,12 +1,8 @@
 # Aplicação Inteligente de Monitoramento de Logs para Análise de Transações de Operações Diversas no Comércio Eletrônico
 
-## 🧠 Contexto e Justificativa
+##  Contexto e Justificativa
 
-No contexto de e-commerce, as plataformas de vendas online estão cada vez mais expostas a um alto volume de transações, acessos simultâneos e dados sensíveis dos consumidores. Isso exige um monitoramento contínuo e preciso para garantir a integridade e segurança dos sistemas.
-
-O aumento da complexidade dos sistemas de e-commerce, com múltiplas integrações e processos de pagamento em tempo real, torna a análise manual dos logs praticamente impossível e arriscada. Sem uma abordagem inteligente para o monitoramento de logs, o e-commerce pode enfrentar falhas de desempenho, riscos de segurança, erros de processamento e uma experiência de usuário comprometida.
-
-Este projeto busca atender à necessidade de uma solução eficaz e eficiente para monitorar logs de forma automatizada, detectar falhas e otimizar o funcionamento da plataforma, assegurando a qualidade do serviço e a segurança dos dados.
+No contexto de e-commerce, as plataformas de vendas online estão cada vez mais expostas a um alto volume de transações, acessos simultâneos e dados sensíveis dos consumidores. Isso exige um monitoramento contínuo e preciso para garantir a integridade e segurança dos sistemas. O aumento da complexidade dos sistemas de e-commerce, com múltiplas integrações e processos de pagamento em tempo real, torna a análise manual dos logs praticamente impossível e arriscada. Sem uma abordagem inteligente para o monitoramento de logs, o e-commerce pode enfrentar falhas de desempenho, riscos de segurança, erros de processamento e uma experiência de usuário comprometida. Este projeto busca atender à necessidade de uma solução eficaz e eficiente para monitorar logs de forma automatizada, detectar falhas e otimizar o funcionamento da plataforma, assegurando a qualidade do serviço e a segurança dos dados.
 
 ## 🎯 Objetivos
 
