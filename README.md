@@ -4,7 +4,7 @@
 
 No contexto de e-commerce, as plataformas de vendas online estão cada vez mais expostas a um alto volume de transações, acessos simultâneos e dados sensíveis dos consumidores. Isso exige um monitoramento contínuo e preciso para garantir a integridade e segurança dos sistemas. O aumento da complexidade dos sistemas de e-commerce, com múltiplas integrações e processos de pagamento em tempo real, torna a análise manual dos logs praticamente impossível e arriscada. Sem uma abordagem inteligente para o monitoramento de logs, o e-commerce pode enfrentar falhas de desempenho, riscos de segurança, erros de processamento e uma experiência de usuário comprometida. Este projeto busca atender à necessidade de uma solução eficaz e eficiente para monitorar logs de forma automatizada, detectar falhas e otimizar o funcionamento da plataforma, assegurando a qualidade do serviço e a segurança dos dados.
 
-## 🎯 Objetivos
+##  Objetivos
 
 ### Objetivo Geral
 
@@ -19,7 +19,7 @@ Desenvolver uma Plataforma Inteligente de Monitoramento de Logs para E-commerce,
 - Desenvolver um sistema de alertas inteligentes para notificar administradores sobre problemas críticos e atividades suspeitas.
 - Criar dashboards interativos para visualização em tempo real, identificação de tendências e análise aprofundada dos logs.
 
-## 📝 Descrição
+##  Descrição
 
 O projeto **Plataforma Inteligente de Monitoramento de Logs para E-commerce** automatiza a coleta, processamento e análise dos logs das plataformas de e-commerce. Utiliza IA para detectar padrões, prever falhas e gerar alertas em tempo real, melhorando a segurança e estabilidade do sistema.
 
@@ -29,18 +29,18 @@ Podemos utilizar a biblioteca `scikit-learn` junto com o algoritmo `IsolationFor
 
 ---
 
-## 📜 Descrição Técnica
+##  Descrição Técnica
 
 Este projeto simula a geração de logs de um sistema e utiliza o algoritmo `Isolation Forest`, do `scikit-learn`, para detectar mensagens de erro que podem indicar falhas críticas ou anomalias no sistema.
 
-## 🚀 Funcionalidades Principais
+##  Funcionalidades Principais
 
 - Geração automática de logs com níveis INFO, WARN e ERROR.
 - Vetorização das mensagens usando `CountVectorizer`.
 - Identificação de mensagens de erro anômalas com o algoritmo `Isolation Forest`.
 - Exibição dos logs formatados.
 
-## ⚙️ Instalação
+##  Instalação
 
 1. Clone o repositório:
    ```bash
