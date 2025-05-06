@@ -1,27 +1,38 @@
-# Importação de bibliotecas
-import pandas as pd  # Para manipulação de dados em DataFrames
-from sklearn.ensemble import IsolationForest  # Algoritmo de detecção de anomalias
-from sklearn.feature_extraction.text import TfidfVectorizer  # Para transformar texto em vetores numéricos (com peso TF-IDF)
-from sklearn.preprocessing import LabelEncoder  # Para codificar variáveis categóricas (como o nível do log)
-import numpy as np  # Para operações numéricas
-from datetime import datetime  # Para gerar timestamps
-import random  # Para gerar dados aleatórios
+import pandas as pd
+from sklearn.svm import OneClassSVM
+from sklearn.feature_extraction.text import TfidfVectorizer
+import numpy as np
+from datetime import datetime
+import random,3
 
-### Geração de Logs Aleatórios ###
+import re
+
 def gerar_logs_aleatorios(num_logs=20):
-    """
-    Gera logs simulados com níveis INFO, WARN e ERROR.
-    Retorna um DataFrame com colunas: timestamp, nivel, mensagem.
-    """
     logs = []
     niveis = ["INFO", "WARN", "ERROR"]
-    mensagens_info = ["Conexão estabelecida.", "Pagamento aprovado."]
-    mensagens_warn = ["Tentativa de login falhou.", "Servidor lento."]
+
+    mensagens_info = [
+        "Conexão com o servidor estabelecida.",
+        "Pagamento processado com sucesso.",
+        "Produto adicionado ao carrinho.",
+        "Usuário fez login com sucesso.",
+        "Pedido finalizado com sucesso."
+    ]
+
+    mensagens_warn = [
+        "Tentativa de pagamento falhou, cartão expirado.",
+        "Tentativa de login falhou, senha incorreta.",
+        "Tempo de resposta do servidor acima do esperado."
+    ]
+
     mensagens_error = [
-        "Falha crítica: servidor BD offline.",
-        "Erro interno: exceção não tratada.",
-        "Timeout conexão API.",
-        "Divisão por zero detectada."
+        "Erro ao processar pagamento com cartão de crédito.",
+        "Timeout na API do gateway de pagamento.",
+        "Discrepância nos valores da transação detectada.",
+        "Falha ao validar dados bancários do cliente.",
+        "Erro interno no sistema de pagamento.",
+        "Transação duplicada identificada no sistema.",
+        "Erro ao calcular total da compra com desconto aplicado."
     ]
 
     for _ in range(num_logs):
@@ -36,72 +47,53 @@ def gerar_logs_aleatorios(num_logs=20):
         timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S,%f')[:-3]
         logs.append({"timestamp": timestamp, "nivel": nivel, "mensagem": mensagem})
 
-    return pd.DataFrame(logs)  # Retorna os logs em formato de tabela
+    return pd.DataFrame(logs)
 
-### Extração de Features (Pré-processamento) ###
-def extrair_features(df):
-    """
-    Transforma os logs em features numéricas para o modelo de ML.
-    Retorna uma matriz numpy combinando:
-    - Nível do log (codificado como 0, 1, 2)
-    - Vetores TF-IDF das mensagens.
-    """
-    # Codifica o nível do log (INFO=0, WARN=1, ERROR=2)
-    encoder = LabelEncoder()
-    df["nivel_encoded"] = encoder.fit_transform(df["nivel"])
 
-    # Vetoriza o texto das mensagens com TF-IDF (considera importância das palavras)
-    vectorizer = TfidfVectorizer(max_features=50)
-    X_text = vectorizer.fit_transform(df["mensagem"]).toarray()
+def detectar_por_regras(df):
+    padrao = r"\berro\b|\bfalha\b|\btimeout\b|\bduplicada\b|\binválido\b|\bdiscrepância\b"
+    return df[df['mensagem'].str.contains(padrao, flags=re.IGNORECASE, regex=True)]
 
-    # Combina as features em uma única matriz
-    X = np.hstack([df["nivel_encoded"].values.reshape(-1, 1), X_text])
-    return X
 
-### Detecção de Anomalias (Machine Learning) ###
-def detectar_erros_sistema(df):
-    """
-    Identifica logs anômalos usando IsolationForest.
-    Retorna um DataFrame com logs classificados como anomalias ou ERRORs.
-    """
-    if df.empty:
-        print("Nenhum log para análise.")
+def detectar_por_ia(df):
+    df_erros = df[df['nivel'] == 'ERROR'].copy()
+    if df_erros.empty:
         return pd.DataFrame()
 
-    # Extrai features (pré-processamento)
-    X = extrair_features(df)
+    vectorizer = TfidfVectorizer()
+    X = vectorizer.fit_transform(df_erros['mensagem']).toarray()
 
-    # ALGORITMO DE APRENDIZADO DE MÁQUINA; #
-    # Configura e treina o IsolationForest
-    model = IsolationForest(
-        contamination=0.2,  # Proporção esperada de anomalias
-        n_estimators=200,   # Número de árvores 
-        random_state=42     # Semente para reprodutibilidade
-    )
-    # Treina o modelo e prediz anomalias (-1 é anomalia, 1 é normal)
-    df["anomalia"] = model.fit_predict(X)
+    modelo = OneClassSVM(gamma='auto', nu=0.2)  # nu controla sensibilidade a anomalias
+    df_erros['anomalia'] = modelo.fit_predict(X)
+    
+    return df_erros[df_erros['anomalia'] == -1]
 
-    # Filtra anomalias OU logs de ERROR (garante cobertura total)
-    erros = df[(df["anomalia"] == -1) | (df["nivel"] == "ERROR")]
-    return erros[["timestamp", "nivel", "mensagem"]]
 
-### Exibição de Logs ###
+def detectar_erros_sistema(df):
+    if df.empty:
+        print("Nenhum log disponível para análise.")
+        return pd.DataFrame()
+
+    por_regras = detectar_por_regras(df)
+    por_ia = detectar_por_ia(df)
+
+    # Combinar resultados e remover duplicatas
+    df_resultado = pd.concat([por_regras, por_ia]).drop_duplicates()
+    return df_resultado[['timestamp', 'nivel', 'mensagem']]
+
+
 def exibir_logs(df, titulo):
-    """Exibe logs formatados no console."""
     print(f"\n{titulo}:")
     for _, row in df.iterrows():
         print(f"{row['timestamp']} - {row['nivel']} - {row['mensagem']}")
 
+
 if __name__ == "__main__":
-    # Gerar logs aleatórios
-    df_logs = gerar_logs_aleatorios(50)  # Gera 50 logs
+    df_logs = gerar_logs_aleatorios(30)
     exibir_logs(df_logs, "Logs gerados")
 
-    # Detectar anomalias/erros (usando Machine Learning)
-    erros = detectar_erros_sistema(df_logs)
-
-    # Exibir resultados
-    if not erros.empty:
-        exibir_logs(erros, "Erros/anomalias detectados")
+    erros_sistema = detectar_erros_sistema(df_logs)
+    if not erros_sistema.empty:
+        exibir_logs(erros_sistema, "Erros de transações financeiras detectados")
     else:
-        print("\nNenhuma anomalia encontrada.")
+        print("\nNenhum erro de sistema detectado.")
